@@ -49,8 +49,8 @@ The output of that command is a bytecode file that can be run using the mruby
 command found in the same bin directory. NB you currently need to cat all your
 script files together before compiling the, using require doesn't work.
 
-Once you have your compiled Ruby code ready you can embed it in your app using
-something like the following code:
+Once you have compiled your Ruby code and added it to your application bundle
+you can embed it in your app using something like the following code:
 
 ```
 #include "mruby/mruby/proc.h"
