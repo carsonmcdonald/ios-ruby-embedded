@@ -51,6 +51,7 @@ $(IOSDEVLIB) :
 clean :
 	$(MAKE) clean -C mruby --no-print-directory CC='$(IOSDEVCC)' LL='$(IOSDEVCC)' ALL_CFLAGS='$(ALL_CFLAGS)'
 	rm -rf tmp
+	rm -rf bin
 	rm -f bin/mrbc bin/mruby
 	rm -f MRuby.framework/Versions/Current/MRuby
 	rm -rf MRuby.framework/Versions/Current/Headers/*
