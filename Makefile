@@ -19,6 +19,7 @@ all : setup bin/mruby bin/mbrc $(IOSSIMLIB) $(IOSDEVLIB)
 	lipo -arch i386 $(IOSSIMLIB) -arch armv7 $(IOSDEVLIB) -create -output $(IOSLIB)
 	cp $(IOSLIB) MRuby.framework/Versions/Current/MRuby
 	cp -R mruby/include/* MRuby.framework/Versions/Current/Headers
+	sed -i '' 's/mruby\.h/..\/mruby\.h/g' MRuby.framework/Versions/Current/Headers/mruby/*
 
 setup :
 	mkdir -p tmp/lib
