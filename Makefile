@@ -1,10 +1,16 @@
-MRUBYLIB := mruby/lib/libmruby.a
+MRUBYLIB := mruby/lib/libmruby_core.a
 IOSLIB := tmp/lib/mruby-ios.a
 IOSSIMLIB := tmp/lib/mruby-iosi386.a
 IOSDEVLIB := tmp/lib/mruby-iosarm7.a
 XCODEROOT := `xcode-select -print-path`
 IOSSIMCC := xcrun -sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot "$(XCODEROOT)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk/"
 IOSDEVCC := xcrun -sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot "$(XCODEROOT)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/"
+PLATFORMCC := gcc
+PLATFORMLL := gcc
+
+export CP := cp
+export RM_F := rm -f
+export CAT := cat
 
 # compiler, linker (gcc)
 DEBUG_MODE = 1
@@ -22,6 +28,7 @@ all : setup bin/mruby bin/mbrc $(IOSSIMLIB) $(IOSDEVLIB)
 	cp mruby/src/encoding.h MRuby.framework/Versions/Current/Headers/mruby
 	cp mruby/src/oniguruma.h MRuby.framework/Versions/Current/Headers/mruby
 	sed -i '' 's/mruby\.h/..\/mruby\.h/g' MRuby.framework/Versions/Current/Headers/mruby/*
+	sed -i '' 's/mruby\/khash\.h/..\/mruby\/khash\.h/g' MRuby.framework/Versions/Current/Headers/mruby/*
 	sed -i '' 's/mruby\/data\.h/..\/mruby\/data\.h/g' MRuby.framework/Versions/Current/Headers/mruby/encoding.h
 
 setup :
@@ -30,16 +37,16 @@ setup :
 
 bin/mruby :
 	$(MAKE) clean -C mruby --no-print-directory CC='$(IOSSIMCC)' LL='$(IOSSIMCC)' ALL_CFLAGS='$(ALL_CFLAGS)'
-	$(MAKE) -C mruby/src --no-print-directory ALL_CFLAGS='$(ALL_CFLAGS)'
-	$(MAKE) -C mruby/mrblib --no-print-directory ALL_CFLAGS='$(ALL_CFLAGS)'
-	$(MAKE) -C mruby/tools/mruby --no-print-directory ALL_CFLAGS='$(ALL_CFLAGS)'
+	$(MAKE) -C mruby/src --no-print-directory CC='$(PLATFORMCC)' LL='$(PLATFORMLL)' ALL_CFLAGS='$(ALL_CFLAGS)'
+	$(MAKE) -C mruby/mrblib --no-print-directory CC='$(PLATFORMCC)' LL='$(PLATFORMLL)' ALL_CFLAGS='$(ALL_CFLAGS)'
+	$(MAKE) -C mruby/tools/mruby --no-print-directory CC='$(PLATFORMCC)' LL='$(PLATFORMLL)' ALL_CFLAGS='$(ALL_CFLAGS)'
 	cp mruby/bin/mruby bin/mruby
 
 bin/mbrc :
 	$(MAKE) clean -C mruby --no-print-directory CC='$(IOSSIMCC)' LL='$(IOSSIMCC)' ALL_CFLAGS='$(ALL_CFLAGS)'
-	$(MAKE) -C mruby/src --no-print-directory ALL_CFLAGS='$(ALL_CFLAGS)'
-	$(MAKE) -C mruby/mrblib --no-print-directory ALL_CFLAGS='$(ALL_CFLAGS)'
-	$(MAKE) -C mruby/tools/mrbc --no-print-directory ALL_CFLAGS='$(ALL_CFLAGS)'
+	$(MAKE) -C mruby/src --no-print-directory CC='$(PLATFORMCC)' LL='$(PLATFORMLL)' ALL_CFLAGS='$(ALL_CFLAGS)'
+	$(MAKE) -C mruby/mrblib --no-print-directory CC='$(PLATFORMCC)' LL='$(PLATFORMLL)' ALL_CFLAGS='$(ALL_CFLAGS)'
+	$(MAKE) -C mruby/tools/mrbc --no-print-directory CC='$(PLATFORMCC)' LL='$(PLATFORMLL)' ALL_CFLAGS='$(ALL_CFLAGS)'
 	cp mruby/bin/mrbc bin/mrbc
 
 $(IOSSIMLIB) :
