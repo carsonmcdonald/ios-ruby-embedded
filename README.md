@@ -53,6 +53,7 @@ Once you have compiled your Ruby code and added it to your application bundle
 you can embed it in your app using something like the following code:
 
 ```
+#include "mruby/mruby.h"
 #include "mruby/mruby/proc.h"
 #include "mruby/mruby/dump.h"
 
