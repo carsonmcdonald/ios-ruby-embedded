@@ -3,8 +3,10 @@ IOSLIB := tmp/lib/mruby-ios.a
 IOSSIMLIB := tmp/lib/mruby-iosi386.a
 IOSDEVLIB := tmp/lib/mruby-iosarm7.a
 XCODEROOT := `xcode-select -print-path`
-IOSSIMCC := xcrun -sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot "$(XCODEROOT)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk/"
-IOSDEVCC := xcrun -sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot "$(XCODEROOT)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/"
+SIMSDKPATH := "$(XCODEROOT)/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator5.1.sdk/"
+IOSSDKPATH := "$(XCODEROOT)/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS5.1.sdk/"
+IOSSIMCC := xcrun -sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot $(SIMSDKPATH)
+IOSDEVCC := xcrun -sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot $(IOSSDKPATH)
 PLATFORMCC := gcc
 PLATFORMLL := gcc
 
@@ -31,7 +33,11 @@ all : setup bin/mruby bin/mbrc $(IOSSIMLIB) $(IOSDEVLIB)
 	sed -i '' 's/mruby\/khash\.h/..\/mruby\/khash\.h/g' MRuby.framework/Versions/Current/Headers/mruby/*
 	sed -i '' 's/mruby\/data\.h/..\/mruby\/data\.h/g' MRuby.framework/Versions/Current/Headers/mruby/encoding.h
 
-setup :
+setup : 
+	test -d $(SIMSDKPATH) || echo "Can't find simulator SDK path"
+	test -d $(SIMSDKPATH)
+	test -d $(IOSSDKPATH) || echo "Can't find iOS SDK path"
+	test -d $(IOSSDKPATH)
 	mkdir -p tmp/lib
 	mkdir -p bin
 
