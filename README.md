@@ -73,6 +73,22 @@ you can embed it in your app using something like the following code:
     }
 ```
 
+
+### Another Example
+```
+#include "mruby/mruby.h"
+#include "mruby/mruby/compile.h"
+
+// ...
+    mrb_state *mrb;
+    mrb_value n;
+
+    mrb = mrb_open();
+    n = mrb_load_string(mrb, "puts 'hello'; puts 1+2; p({:a=>[1,2,3], :b=>{'c'=>{'d'=>['e', {'f'=>nil}]}}})");
+    mrb_close(mrb);
+```
+
+
 ## Notes
 
 * mruby is new and changing constantly, don't be surprised if this project
