@@ -32,6 +32,7 @@ all : setup bin/mruby bin/mbrc $(IOSSIMLIB) $(IOSDEVLIB)
 	sed -i '' 's/mruby\.h/..\/mruby\.h/g' MRuby.framework/Versions/Current/Headers/mruby/*
 	sed -i '' 's/mruby\/khash\.h/..\/mruby\/khash\.h/g' MRuby.framework/Versions/Current/Headers/mruby/*
 	sed -i '' 's/mruby\/data\.h/..\/mruby\/data\.h/g' MRuby.framework/Versions/Current/Headers/mruby/encoding.h
+	sed -i '' 's/mruby\/object\.h/..\/mruby\/object\.h/g' MRuby.framework/Versions/Current/Headers/mruby/value.h
 
 setup : 
 	test -d $(SIMSDKPATH) || echo "Can't find simulator SDK path"
