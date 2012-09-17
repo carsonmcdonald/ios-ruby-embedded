@@ -27,8 +27,8 @@ ALL_CFLAGS = -Wall -Werror-implicit-function-declaration $(CFLAGS)
 
 all : setup support $(IOSSIMLIB) $(IOSDEV7LIB) $(IOSDEV7SLIB)
 	$(IOSSDKPATH)/../../usr/bin/lipo -arch i386 $(IOSSIMLIB) -arch armv7 $(IOSDEV7LIB) -arch armv7s $(IOSDEV7SLIB) -create -output $(IOSLIB)
-	mkdir -p MRuby.framework/Versions/Current/Resources
-	mkdir -p MRuby.framework/Versions/Current/Headers
+	mkdir -p MRuby.framework/Versions/0.1/Resources
+	mkdir -p MRuby.framework/Versions/0.1/Headers
 	cp $(IOSLIB) MRuby.framework/Versions/Current/MRuby
 	cp -R mruby/include/* MRuby.framework/Versions/Current/Headers
 	cp mruby/src/encoding.h MRuby.framework/Versions/Current/Headers/mruby
