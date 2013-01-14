@@ -13,7 +13,7 @@ want that then check out the [mobiruby](http://mobiruby.org/) project.
 * cd ios-ruby-embedded
 * git submodule init
 * git submodule update
-* make
+* rake
 
 After the above steps you should have a complete MRuby.framework framework
 structure that is ready to use.
