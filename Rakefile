@@ -10,45 +10,52 @@ file "ios_build_config.rb" do
 
     config_file.puts <<__EOF__
 MRuby::Build.new do |conf|
-  conf.cc = ENV['CC'] || 'gcc'
-  conf.ld = ENV['LD'] || 'gcc'
-  conf.ar = ENV['AR'] || 'ar'
-
-  conf.cflags << (ENV['CFLAGS'] || %w(-g -O3 -Wall -Werror-implicit-function-declaration))
-  conf.ldflags << (ENV['LDFLAGS'] || %w(-lm))
+  toolchain :gcc
 end
 
 SIM_SYSROOT="#{SIMSDKPATH}"
 DEVICE_SYSROOT="#{IOSSDKPATH}"
 
 MRuby::CrossBuild.new('ios-simulator') do |conf|
-  conf.cc = 'xcrun'
-  conf.ld = 'xcrun' 
-  conf.ar = 'ar'
   conf.bins = []
 
-  conf.cflags = %W(-sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot \#{SIM_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration -DDISABLE_GEMS)
-  conf.ldflags = %W(-sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot \#{SIM_SYSROOT})
+  conf.cc do |cc|
+    cc.command = 'xcrun'
+    cc.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot \#{SIM_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration -DDISABLE_GEMS)
+  end
+
+  conf.linker do |linker|
+    linker.command = 'xcrun'
+    linker.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot \#{SIM_SYSROOT})
+  end
 end
 
 MRuby::CrossBuild.new('ios-armv7') do |conf|
-  conf.cc = 'xcrun'
-  conf.ld = 'xcrun' 
-  conf.ar = 'ar'
   conf.bins = []
 
-  conf.cflags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration -DDISABLE_GEMS)
-  conf.ldflags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot \#{DEVICE_SYSROOT})
+  conf.cc do |cc|
+    cc.command = 'xcrun'
+    cc.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration -DDISABLE_GEMS)
+  end
+
+  conf.linker do |linker|
+    linker.command = 'xcrun'
+    linker.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot \#{DEVICE_SYSROOT})
+  end
 end
 
 MRuby::CrossBuild.new('ios-armv7s') do |conf|
-  conf.cc = 'xcrun'
-  conf.ld = 'xcrun' 
-  conf.ar = 'ar'
   conf.bins = []
 
-  conf.cflags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7s -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration -DDISABLE_GEMS)
-  conf.ldflags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7s -isysroot \#{DEVICE_SYSROOT})
+  conf.cc do |cc|
+    cc.command = 'xcrun'
+    cc.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7s -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration -DDISABLE_GEMS)
+  end
+
+  conf.linker do |linker|
+    linker.command = 'xcrun'
+    linker.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7s -isysroot \#{DEVICE_SYSROOT})
+  end
 end
 __EOF__
 
