@@ -94,12 +94,9 @@ end
 
 task :mruby_headers => [:build_mruby, "MRuby.framework/Versions/0.1/Headers"] do
   FileUtils.cp_r "mruby/include/.", "MRuby.framework/Versions/Current/Headers/"
-  FileUtils.cp "mruby/src/encoding.h", "MRuby.framework/Versions/Current/Headers/mruby/"
-  FileUtils.cp "mruby/src/oniguruma.h", "MRuby.framework/Versions/Current/Headers/mruby/"
 
   sh "sed -i '' 's/mruby\\.h/..\\/mruby\\.h/g' MRuby.framework/Versions/Current/Headers/mruby/*"
   sh "sed -i '' 's/mruby\\/khash\\.h/..\\/mruby\\/khash\\.h/g' MRuby.framework/Versions/Current/Headers/mruby/*"
-  sh "sed -i '' 's/mruby\\/data\\.h/..\\/mruby\\/data\\.h/g' MRuby.framework/Versions/Current/Headers/mruby/encoding.h"
   sh "sed -i '' 's/mruby\\/irep\\.h/..\\/mruby\\/irep\\.h/g' MRuby.framework/Versions/Current/Headers/mruby/proc.h"
   sh "sed -i '' 's/mruby\\/object\\.h/..\\/mruby\\/object\\.h/g' MRuby.framework/Versions/Current/Headers/mruby/value.h"
 end
