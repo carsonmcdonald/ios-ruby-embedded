@@ -19,12 +19,18 @@ DEVICE_SYSROOT="#{IOSSDKPATH}"
 MRuby::CrossBuild.new('ios-simulator') do |conf|
   conf.bins = []
 
+  conf.gem "\#{root}/mrbgems/mruby-sprintf"
+  conf.gem "\#{root}/mrbgems/mruby-print"
   conf.gem "\#{root}/mrbgems/mruby-math"
   conf.gem "\#{root}/mrbgems/mruby-time"
-  conf.gem "\#{root}/mrbgems/mruby-sprintf"
-  conf.gem "\#{root}/mrbgems/mruby-string-ext"
   conf.gem "\#{root}/mrbgems/mruby-struct"
+  conf.gem "\#{root}/mrbgems/mruby-enum-ext"
+  conf.gem "\#{root}/mrbgems/mruby-string-ext"
   conf.gem "\#{root}/mrbgems/mruby-numeric-ext"
+  conf.gem "\#{root}/mrbgems/mruby-array-ext"
+  conf.gem "\#{root}/mrbgems/mruby-hash-ext"
+  conf.gem "\#{root}/mrbgems/mruby-random"
+  conf.gem "\#{root}/mrbgems/mruby-eval"
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -40,12 +46,18 @@ end
 MRuby::CrossBuild.new('ios-armv7') do |conf|
   conf.bins = []
 
+  conf.gem "\#{root}/mrbgems/mruby-sprintf"
+  conf.gem "\#{root}/mrbgems/mruby-print"
   conf.gem "\#{root}/mrbgems/mruby-math"
   conf.gem "\#{root}/mrbgems/mruby-time"
-  conf.gem "\#{root}/mrbgems/mruby-sprintf"
-  conf.gem "\#{root}/mrbgems/mruby-string-ext"
   conf.gem "\#{root}/mrbgems/mruby-struct"
+  conf.gem "\#{root}/mrbgems/mruby-enum-ext"
+  conf.gem "\#{root}/mrbgems/mruby-string-ext"
   conf.gem "\#{root}/mrbgems/mruby-numeric-ext"
+  conf.gem "\#{root}/mrbgems/mruby-array-ext"
+  conf.gem "\#{root}/mrbgems/mruby-hash-ext"
+  conf.gem "\#{root}/mrbgems/mruby-random"
+  conf.gem "\#{root}/mrbgems/mruby-eval"
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -61,12 +73,18 @@ end
 MRuby::CrossBuild.new('ios-armv7s') do |conf|
   conf.bins = []
 
+  conf.gem "\#{root}/mrbgems/mruby-sprintf"
+  conf.gem "\#{root}/mrbgems/mruby-print"
   conf.gem "\#{root}/mrbgems/mruby-math"
   conf.gem "\#{root}/mrbgems/mruby-time"
-  conf.gem "\#{root}/mrbgems/mruby-sprintf"
-  conf.gem "\#{root}/mrbgems/mruby-string-ext"
   conf.gem "\#{root}/mrbgems/mruby-struct"
+  conf.gem "\#{root}/mrbgems/mruby-enum-ext"
+  conf.gem "\#{root}/mrbgems/mruby-string-ext"
   conf.gem "\#{root}/mrbgems/mruby-numeric-ext"
+  conf.gem "\#{root}/mrbgems/mruby-array-ext"
+  conf.gem "\#{root}/mrbgems/mruby-hash-ext"
+  conf.gem "\#{root}/mrbgems/mruby-random"
+  conf.gem "\#{root}/mrbgems/mruby-eval"
 
   conf.cc do |cc|
     cc.command = 'xcrun'
