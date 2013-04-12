@@ -11,6 +11,12 @@ file "ios_build_config.rb" do
     config_file.puts <<__EOF__
 MRuby::Build.new do |conf|
   toolchain :gcc
+
+  # Generate mirb command
+  conf.gem "\#{root}/mrbgems/mruby-bin-mirb"
+    
+  # Generate mruby command
+  conf.gem "\#{root}/mrbgems/mruby-bin-mruby"
 end
 
 SIM_SYSROOT="#{SIMSDKPATH}"
@@ -21,16 +27,10 @@ MRuby::CrossBuild.new('ios-simulator') do |conf|
 
   conf.gem "\#{root}/mrbgems/mruby-sprintf"
   conf.gem "\#{root}/mrbgems/mruby-print"
-  conf.gem "\#{root}/mrbgems/mruby-math"
-  conf.gem "\#{root}/mrbgems/mruby-time"
-  conf.gem "\#{root}/mrbgems/mruby-struct"
-  conf.gem "\#{root}/mrbgems/mruby-enum-ext"
-  conf.gem "\#{root}/mrbgems/mruby-string-ext"
-  conf.gem "\#{root}/mrbgems/mruby-numeric-ext"
-  conf.gem "\#{root}/mrbgems/mruby-array-ext"
-  conf.gem "\#{root}/mrbgems/mruby-hash-ext"
-  conf.gem "\#{root}/mrbgems/mruby-random"
-  conf.gem "\#{root}/mrbgems/mruby-eval"
+
+  Dir.glob("\#{root}/mrbgems/mruby-*") do |x|
+    conf.gem x unless x =~ /\\/mruby-(print|sprintf|bin-mruby|bin-mirb)$/  
+  end
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -48,16 +48,10 @@ MRuby::CrossBuild.new('ios-armv7') do |conf|
 
   conf.gem "\#{root}/mrbgems/mruby-sprintf"
   conf.gem "\#{root}/mrbgems/mruby-print"
-  conf.gem "\#{root}/mrbgems/mruby-math"
-  conf.gem "\#{root}/mrbgems/mruby-time"
-  conf.gem "\#{root}/mrbgems/mruby-struct"
-  conf.gem "\#{root}/mrbgems/mruby-enum-ext"
-  conf.gem "\#{root}/mrbgems/mruby-string-ext"
-  conf.gem "\#{root}/mrbgems/mruby-numeric-ext"
-  conf.gem "\#{root}/mrbgems/mruby-array-ext"
-  conf.gem "\#{root}/mrbgems/mruby-hash-ext"
-  conf.gem "\#{root}/mrbgems/mruby-random"
-  conf.gem "\#{root}/mrbgems/mruby-eval"
+
+  Dir.glob("\#{root}/mrbgems/mruby-*") do |x|
+    conf.gem x unless x =~ /\\/mruby-(print|sprintf|bin-mruby|bin-mirb)$/  
+  end
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -75,16 +69,10 @@ MRuby::CrossBuild.new('ios-armv7s') do |conf|
 
   conf.gem "\#{root}/mrbgems/mruby-sprintf"
   conf.gem "\#{root}/mrbgems/mruby-print"
-  conf.gem "\#{root}/mrbgems/mruby-math"
-  conf.gem "\#{root}/mrbgems/mruby-time"
-  conf.gem "\#{root}/mrbgems/mruby-struct"
-  conf.gem "\#{root}/mrbgems/mruby-enum-ext"
-  conf.gem "\#{root}/mrbgems/mruby-string-ext"
-  conf.gem "\#{root}/mrbgems/mruby-numeric-ext"
-  conf.gem "\#{root}/mrbgems/mruby-array-ext"
-  conf.gem "\#{root}/mrbgems/mruby-hash-ext"
-  conf.gem "\#{root}/mrbgems/mruby-random"
-  conf.gem "\#{root}/mrbgems/mruby-eval"
+
+  Dir.glob("\#{root}/mrbgems/mruby-*") do |x|
+    conf.gem x unless x =~ /\\/mruby-(print|sprintf|bin-mruby|bin-mirb)$/  
+  end
 
   conf.cc do |cc|
     cc.command = 'xcrun'
