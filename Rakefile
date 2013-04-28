@@ -12,11 +12,7 @@ file "ios_build_config.rb" do
 MRuby::Build.new do |conf|
   toolchain :gcc
 
-  # Generate mirb command
-  conf.gem "\#{root}/mrbgems/mruby-bin-mirb"
-    
-  # Generate mruby command
-  conf.gem "\#{root}/mrbgems/mruby-bin-mruby"
+  conf.gembox 'default'
 end
 
 SIM_SYSROOT="#{SIMSDKPATH}"
@@ -25,12 +21,7 @@ DEVICE_SYSROOT="#{IOSSDKPATH}"
 MRuby::CrossBuild.new('ios-simulator') do |conf|
   conf.bins = []
 
-  conf.gem "\#{root}/mrbgems/mruby-sprintf"
-  conf.gem "\#{root}/mrbgems/mruby-print"
-
-  Dir.glob("\#{root}/mrbgems/mruby-*") do |x|
-    conf.gem x unless x =~ /\\/mruby-(print|sprintf|bin-mruby|bin-mirb)$/  
-  end
+  conf.gembox 'default'
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -46,12 +37,7 @@ end
 MRuby::CrossBuild.new('ios-armv7') do |conf|
   conf.bins = []
 
-  conf.gem "\#{root}/mrbgems/mruby-sprintf"
-  conf.gem "\#{root}/mrbgems/mruby-print"
-
-  Dir.glob("\#{root}/mrbgems/mruby-*") do |x|
-    conf.gem x unless x =~ /\\/mruby-(print|sprintf|bin-mruby|bin-mirb)$/  
-  end
+  conf.gembox 'default'
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -67,13 +53,7 @@ end
 MRuby::CrossBuild.new('ios-armv7s') do |conf|
   conf.bins = []
 
-  conf.gem "\#{root}/mrbgems/mruby-sprintf"
-  conf.gem "\#{root}/mrbgems/mruby-print"
-
-  Dir.glob("\#{root}/mrbgems/mruby-*") do |x|
-    conf.gem x unless x =~ /\\/mruby-(print|sprintf|bin-mruby|bin-mirb)$/  
-  end
-
+  conf.gembox 'default'
   conf.cc do |cc|
     cc.command = 'xcrun'
     cc.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7s -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
