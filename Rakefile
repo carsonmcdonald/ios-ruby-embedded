@@ -1,6 +1,8 @@
 XCODEROOT = %x[xcode-select -print-path].strip
-SIMSDKPATH = "#{XCODEROOT}/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/"
-IOSSDKPATH = "#{XCODEROOT}/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/"
+#SIMSDKPATH = "#{XCODEROOT}/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator6.1.sdk/"
+#IOSSDKPATH = "#{XCODEROOT}/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/"
+SIMSDKPATH = "#{XCODEROOT}/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator7.0.sdk/"
+IOSSDKPATH = "#{XCODEROOT}/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS7.0.sdk/"
 
 task :verify_sysroot => [SIMSDKPATH, IOSSDKPATH]
 
@@ -10,7 +12,7 @@ file "ios_build_config.rb" do
 
     config_file.puts <<__EOF__
 MRuby::Build.new do |conf|
-  toolchain :gcc
+  toolchain :clang
 
   conf.gembox 'default'
 end
@@ -25,12 +27,12 @@ MRuby::CrossBuild.new('ios-simulator') do |conf|
 
   conf.cc do |cc|
     cc.command = 'xcrun'
-    cc.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot \#{SIM_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
+    cc.flags = %W(-sdk iphoneos clang -miphoneos-version-min=5.0 -arch i386 -isysroot \#{SIM_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
   end
 
   conf.linker do |linker|
     linker.command = 'xcrun'
-    linker.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch i386 -isysroot \#{SIM_SYSROOT})
+    linker.flags = %W(-sdk iphoneos clang -miphoneos-version-min=5.0 -arch i386 -isysroot \#{SIM_SYSROOT})
   end
 end
 
@@ -41,12 +43,12 @@ MRuby::CrossBuild.new('ios-armv7') do |conf|
 
   conf.cc do |cc|
     cc.command = 'xcrun'
-    cc.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
+    cc.flags = %W(-sdk iphoneos clang -arch armv7 -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
   end
 
   conf.linker do |linker|
     linker.command = 'xcrun'
-    linker.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7 -isysroot \#{DEVICE_SYSROOT})
+    linker.flags = %W(-sdk iphoneos clang -arch armv7 -isysroot \#{DEVICE_SYSROOT})
   end
 end
 
@@ -56,12 +58,12 @@ MRuby::CrossBuild.new('ios-armv7s') do |conf|
   conf.gembox 'default'
   conf.cc do |cc|
     cc.command = 'xcrun'
-    cc.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7s -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
+    cc.flags = %W(-sdk iphoneos clang -arch armv7s -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
   end
 
   conf.linker do |linker|
     linker.command = 'xcrun'
-    linker.flags = %W(-sdk iphoneos llvm-gcc-4.2 -arch armv7s -isysroot \#{DEVICE_SYSROOT})
+    linker.flags = %W(-sdk iphoneos clang -arch armv7s -isysroot \#{DEVICE_SYSROOT})
   end
 end
 __EOF__
