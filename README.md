@@ -21,7 +21,7 @@ structure that is ready to use.
 ## Install
 
 To install the framework in an XCode project follow these steps (these steps
-assume XCode 4.3):
+assume XCode 5.0.0):
 
 * Select the top of the project on the left hand project display
 * Select the "Build Phases" tab in the project details
