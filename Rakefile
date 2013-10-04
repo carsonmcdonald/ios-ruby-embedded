@@ -66,6 +66,21 @@ MRuby::CrossBuild.new('ios-armv7s') do |conf|
     linker.flags = %W(-sdk iphoneos clang -arch armv7s -isysroot \#{DEVICE_SYSROOT})
   end
 end
+
+MRuby::CrossBuild.new('ios-arm64') do |conf|
+  conf.bins = []
+
+  conf.gembox 'default'
+  conf.cc do |cc|
+    cc.command = 'xcrun'
+    cc.flags = %W(-sdk iphoneos clang -arch arm64 -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
+  end
+
+  conf.linker do |linker|
+    linker.command = 'xcrun'
+    linker.flags = %W(-sdk iphoneos clang -arch arm64 -isysroot \#{DEVICE_SYSROOT})
+  end
+end
 __EOF__
 
   end
@@ -98,7 +113,7 @@ directory "MRuby.framework/Versions/0.1/Resources"
 directory "MRuby.framework/Versions/0.1/Headers"
 
 file "MRuby.framework/Versions/Current/MRuby" => [:build_mruby, "MRuby.framework/Versions/0.1/"] do
-  sh "#{IOSSDKPATH}/../../usr/bin/lipo -arch i386 mruby/build/ios-simulator/lib/libmruby.a -arch armv7 mruby/build/ios-armv7/lib/libmruby.a -arch armv7s mruby/build/ios-armv7s/lib/libmruby.a -create -output MRuby.framework/Versions/Current/MRuby"
+  sh "#{IOSSDKPATH}/../../usr/bin/lipo -arch i386 mruby/build/ios-simulator/lib/libmruby.a -arch arm64 mruby/build/ios-arm64/lib/libmruby.a -arch armv7 mruby/build/ios-armv7/lib/libmruby.a -arch armv7s mruby/build/ios-armv7s/lib/libmruby.a -create -output MRuby.framework/Versions/Current/MRuby"
 end
 
 task :mruby_headers => [:build_mruby, "MRuby.framework/Versions/0.1/Headers"] do
