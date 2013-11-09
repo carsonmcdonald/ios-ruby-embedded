@@ -4,6 +4,9 @@ This is a project that will build the current mruby source into a XCode
 framework. That framework can then be used to embed Ruby into an iOS
 application.
 
+For a complete example of using the product of the build check out
+[MRubyiOSExample](https://github.com/carsonmcdonald/MRubyiOSExample)
+
 This is not an attempt to make a bridge between Objective-C and Ruby, if you
 want that then check out the [mobiruby](http://mobiruby.org/) project.
 
