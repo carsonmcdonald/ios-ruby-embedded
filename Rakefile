@@ -87,6 +87,23 @@ __EOF__
 
 end
 
+directory "MRuby.framework/Versions"
+directory "MRuby.framework/Versions/1.0.0/"
+directory "MRuby.framework/Versions/1.0.0/Headers"
+directory "MRuby.framework/Versions/1.0.0/Resources"
+
+task "MRuby.framework/Versions/1.0.0/" => "MRuby.framework/Versions" do
+
+  Dir.chdir("MRuby.framework/Versions/") do
+    File.symlink("1.0.0", "Current")
+  end
+  Dir.chdir("MRuby.framework/") do
+    File.symlink("Versions/Current/Headers", "Headers")
+    File.symlink("Versions/Current/MRuby", "MRuby")
+    File.symlink("Versions/Current/Resources", "Resources")
+  end
+end
+
 task :build_mruby => "ios_build_config.rb" do
   Dir.chdir("mruby") do
     ENV['MRUBY_CONFIG'] = "../ios_build_config.rb"
@@ -107,10 +124,6 @@ end
 file "bin/mruby" => [:build_mruby, "bin"] do
   FileUtils.cp "mruby/build/host/bin/mruby", "bin/mruby"
 end
-
-directory "MRuby.framework/Versions/1.0.0/"
-directory "MRuby.framework/Versions/1.0.0/Resources"
-directory "MRuby.framework/Versions/1.0.0/Headers"
 
 file "MRuby.framework/Versions/Current/MRuby" => [:build_mruby, "MRuby.framework/Versions/1.0.0/"] do
   sh "#{IOSSDKPATH}/../../usr/bin/lipo -arch i386 mruby/build/ios-simulator/lib/libmruby.a -arch arm64 mruby/build/ios-arm64/lib/libmruby.a -arch armv7 mruby/build/ios-armv7/lib/libmruby.a -arch armv7s mruby/build/ios-armv7s/lib/libmruby.a -create -output MRuby.framework/Versions/Current/MRuby"
@@ -137,5 +150,5 @@ task :clean => "ios_build_config.rb" do
     sh "rake clean"
   end
   FileUtils.rm_f ["ios_build_config.rb", "bin/mirb", "bin/mrbc", "bin/mruby"]
-  FileUtils.rm_rf "MRuby.framework/Versions/1.0.0/"
+  FileUtils.rm_rf "MRuby.framework"
 end
