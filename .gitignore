@@ -1,3 +1,4 @@
 bin
 tmp
 ios_build_config.rb
+MRuby.framework
