@@ -65,7 +65,7 @@ you can embed it in your app using something like the following code:
     NSString *bcfile = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"helloworld.mrb"];
     
     mrb_state *mrb = mrb_open();    
-    FILE *fp = fopen([bundleLocation UTF8String], "rb");
+    FILE *fp = fopen([bcfile UTF8String], "rb");
     if (fp == NULL) {
         NSLog(@"Error loading file...");
     } else {
