@@ -6,6 +6,77 @@ task :verify_sysroot => [SIMSDKPATH, IOSSDKPATH]
 
 file "ios_build_config.rb" do
 
+  open('custom.gembox', 'w') do |gembox_file|
+    gembox_file.puts <<__EOF__
+MRuby::GemBox.new do |conf|
+  # Use standard Kernel#sprintf method
+  conf.gem :core => "mruby-sprintf"
+
+  # Use standard print/puts/p
+  conf.gem :core => "mruby-print"
+
+  # Use standard Math module
+  conf.gem :core => "mruby-math"
+
+  # Use standard Time class
+  conf.gem :core => "mruby-time"
+
+  # Use standard Struct class
+  conf.gem :core => "mruby-struct"
+
+  # Use extensional Enumerable module
+  conf.gem :core => "mruby-enum-ext"
+
+  # Use extensional String class
+  conf.gem :core => "mruby-string-ext"
+
+  # Use extensional Numeric class
+  conf.gem :core => "mruby-numeric-ext"
+
+  # Use extensional Array class
+  conf.gem :core => "mruby-array-ext"
+
+  # Use extensional Hash class
+  conf.gem :core => "mruby-hash-ext"
+
+  # Use extensional Range class
+  conf.gem :core => "mruby-range-ext"
+
+  # Use extensional Proc class
+  conf.gem :core => "mruby-proc-ext"
+
+  # Use extensional Symbol class
+  conf.gem :core => "mruby-symbol-ext"
+
+  # Use Random class
+  conf.gem :core => "mruby-random"
+
+  # Use extensional Object class
+  conf.gem :core => "mruby-object-ext"
+
+  # Use ObjectSpace class
+  conf.gem :core => "mruby-objectspace"
+
+  # Use Fiber class
+  conf.gem :core => "mruby-fiber"
+
+  # Use Enumerator class (require mruby-fiber)
+  conf.gem :core => "mruby-enumerator"
+
+  # Use Enumerable::Lazy class (require mruby-enumerator)
+  conf.gem :core => "mruby-enum-lazy"
+
+  # Use extended toplevel object (main) methods
+  conf.gem :core => "mruby-toplevel-ext"
+
+  # Use extensional Kernel module
+  conf.gem :core => "mruby-kernel-ext"
+end
+__EOF__
+  end
+
+  FileUtils.cp "custom.gembox", "mruby/mrbgems/"
+
   open('ios_build_config.rb', 'w') do |config_file|
 
     config_file.puts <<__EOF__
@@ -21,7 +92,7 @@ DEVICE_SYSROOT="#{IOSSDKPATH}"
 MRuby::CrossBuild.new('ios-simulator') do |conf|
   conf.bins = []
 
-  conf.gembox 'default'
+  conf.gembox 'custom'
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -37,7 +108,7 @@ end
 MRuby::CrossBuild.new('ios-simulator-x86_64') do |conf|
   conf.bins = []
 
-  conf.gembox 'default'
+  conf.gembox 'custom'
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -53,7 +124,7 @@ end
 MRuby::CrossBuild.new('ios-armv7') do |conf|
   conf.bins = []
 
-  conf.gembox 'default'
+  conf.gembox 'custom'
 
   conf.cc do |cc|
     cc.command = 'xcrun'
@@ -69,7 +140,8 @@ end
 MRuby::CrossBuild.new('ios-armv7s') do |conf|
   conf.bins = []
 
-  conf.gembox 'default'
+  conf.gembox 'custom'
+
   conf.cc do |cc|
     cc.command = 'xcrun'
     cc.flags = %W(-sdk iphoneos clang -arch armv7s -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
@@ -84,7 +156,8 @@ end
 MRuby::CrossBuild.new('ios-arm64') do |conf|
   conf.bins = []
 
-  conf.gembox 'default'
+  conf.gembox 'custom'
+
   conf.cc do |cc|
     cc.command = 'xcrun'
     cc.flags = %W(-sdk iphoneos clang -arch arm64 -isysroot \#{DEVICE_SYSROOT} -g -O3 -Wall -Werror-implicit-function-declaration)
@@ -163,6 +236,6 @@ task :clean => "ios_build_config.rb" do
     ENV['MRUBY_CONFIG'] = "../ios_build_config.rb"
     sh "rake clean"
   end
-  FileUtils.rm_f ["ios_build_config.rb", "bin/mirb", "bin/mrbc", "bin/mruby"]
+  FileUtils.rm_f ["ios_build_config.rb", "bin/mirb", "bin/mrbc", "bin/mruby", "custom.gembox", "mruby/mrbgems/custom.gembox"]
   FileUtils.rm_rf "MRuby.framework"
 end
